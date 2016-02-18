@@ -1,0 +1,33 @@
+/*
+*Given an integer, convert it to a roman numeral.
+*Input is guaranteed to be within the range from 1 to 3999.
+*/
+
+public class Solution {
+    public String intToRoman(int num) {
+        TreeMap<Integer, String> h=new TreeMap<>();
+        h.put(1,"I");
+        h.put(4,"IV");
+        h.put(5,"V");
+        h.put(9,"IX");
+        h.put(10,"X");
+        h.put(40,"XL");
+        h.put(50,"L");
+        h.put(90,"XC");
+        h.put(100,"C");
+        h.put(400,"CD");
+        h.put(500,"D");
+        h.put(900,"CM");
+        h.put(1000,"M");
+        int i=h.floorKey(num);
+        String str="";
+        while(num!=0)
+        {
+            str=str+h.get(i);
+            num=num-i;
+            if(num<i&&num!=0)
+                i=h.floorKey(num);
+        }
+        return str;
+    }
+}
