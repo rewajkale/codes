@@ -1,0 +1,36 @@
+/*
+*Given a roman numeral, convert it to an integer.
+*Input is guaranteed to be within the range from 1 to 3999.
+*/
+public class Solution {
+    public int romanToInt(String s) {
+        HashMap<String,Integer> h=new HashMap<>();
+        h.put("I",1);
+        h.put("IV",4);
+        h.put("V",5);
+        h.put("IX",9);
+        h.put("X",10);
+        h.put("XL",40);
+        h.put("L",50);
+        h.put("XC",90);
+        h.put("C",100);
+        h.put("CD",400);
+        h.put("D",500);
+        h.put("CM",900);
+        h.put("M",1000);
+        int a=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if((i!=s.length()-1)&&h.get(s.substring(i,i+2))!=null)
+            {
+                a=a+h.get(s.substring(i,i+2));
+                i=i+1;
+            }
+            else
+            {
+                a=a+h.get(s.charAt(i)+"");
+            }
+        }
+        return a;
+    }
+}
