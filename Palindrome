@@ -1,0 +1,30 @@
+package codes;
+//Determine whether an integer is a palindrome. Do this without extra space.
+//Could negative integers be palindromes? (ie, -1)
+//If you are thinking of converting the integer to string, note the restriction of using extra space.
+//You could also try reversing an integer. However, if you have solved the problem "Reverse Integer", 
+//you know that the reversed integer might overflow. How would you handle such case?
+
+public class Palindrome 
+{
+	public boolean isPalindrome(int x) 
+	{
+		if(x<0)
+			return false;
+		int b=0,x1=x;
+		while(x!=0)
+		{
+			b=b*10+x%10;
+			x=x/10;
+		}
+		if(b==x1)
+			return true;
+		else
+			return false;
+    }
+	public static void main(String args[])
+	{
+		Palindrome p=new Palindrome();
+		System.out.println(p.isPalindrome(-1874994781));
+	}
+}
