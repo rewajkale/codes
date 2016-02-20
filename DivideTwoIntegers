@@ -1,0 +1,59 @@
+/*
+* Divide two integers without using multiplication, division and mod operator.
+* If it is overflow, return MAX_INT.
+*/
+public class Solution {
+    public int divide(int dividend, int divisor) {
+        int minus=0,change=0;
+        if(dividend<0||dividend==Integer.MIN_VALUE)
+        {
+            minus++;
+            dividend=Math.abs(dividend);
+        }
+        if(divisor<0||divisor==Integer.MIN_VALUE)
+        {
+            minus=minus==1?0:1;
+            divisor=Math.abs(divisor);
+        }
+        if(divisor==Integer.MIN_VALUE)
+        {
+            if(dividend==Integer.MIN_VALUE)
+                return 1;
+            return 0;
+        }
+        String div=dividend+"";
+        long num=0;
+        long currq=0,q=0;
+        for(int i=0;i<div.length();i++)
+        {
+            if(div.charAt(i)=='-')
+                continue;
+            num=num*10+Integer.parseInt(div.charAt(i)+"");
+            if(num<divisor)
+            {
+                q=q*10;
+                continue;
+            }
+            while(num>=divisor)
+            {
+                num=num-divisor;
+                currq++;
+                change=1;
+            }
+            if(change==1)
+            {
+                change=0;
+                if(minus==0&&q*10+currq>Integer.MAX_VALUE)
+                    return Integer.MAX_VALUE;
+                else if(minus==1&&(-q*10-currq)<Integer.MIN_VALUE)
+                    return Integer.MIN_VALUE;
+                q=q>Integer.MAX_VALUE?Integer.MAX_VALUE:q*10+currq;
+                currq=0;
+            }
+        }
+        if(minus==1)
+            return -(int)q;
+        else
+            return (int)q;
+    }
+}
