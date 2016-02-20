@@ -24,22 +24,13 @@ public class GenerateParenthesis
 	{
 		if(str.length()==length-1)
 		{
-			str=str+")";
-			arr.add(str);
+			arr.add(str+")");
 			return;
 		}
 		if(inner!=0)
-		{
-			//System.out.println(str+" "+inner+" "+outer);
 			parenthesize(outer, inner-1, str+"(", length);
-			//System.out.println(arr+" "+inner+" "+outer);
-		}
 		if((outer>=inner)&&outer!=0)
-		{
-			//System.out.println(str+" "+inner+" "+outer);
 			parenthesize(outer-1, inner, str+")", length);
-			//System.out.println(arr+" "+inner+" "+outer);
-		}
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
