@@ -1,0 +1,54 @@
+/*
+* You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+* For example, given:
+* s: "barfoothefoobarman"
+* words: ["foo", "bar"]
+* You should return the indices: [0,9].
+*/
+public class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        ArrayList<Integer> index=new ArrayList<>();
+        if(s.length()==0||words.length==0||words.length==1)
+            return index;
+        int lenWord=words[0].length();
+        if(s.length()<2*lenWord)
+            return index;
+        HashMap<String, Integer> h=new HashMap<>();
+        for(int i=0;i<words.length;i++)
+        {
+            if(!h.containsKey(words[i]))
+                h.put(words[i],1);
+            else
+                h.put(words[i],h.get(words[i])+1);
+        }
+        int start=0,end=0,count=0;
+        for(int i=0;i<s.length()-2*lenWord;i++)
+        {
+            start=i;end=i+lenWord;
+            HashMap<String, Integer> hash=new HashMap<>(h);
+            while(hash.get(s.substring(start,end))!=null&&hash.get(s.substring(start,end))!=0)
+            {
+                //System.out.println(start+" "+end+" "+s.length());
+                if(Arrays.asList(words).contains(s.substring(start,end)))
+                {
+                    hash.put(s.substring(start,end),hash.get(s.substring(start,end))-1);
+                    count++;
+                    start=start+lenWord;end=end+lenWord;
+                    if(start>=s.length()||end>s.length())
+                        break;
+                    //System.out.println(start+" "+end+" "+s.length());
+                }
+                else
+                    break;
+            }
+            if(count==words.length)
+            {
+                //System.out.println(i);
+                index.add(i);
+            }
+            count=0;
+            //System.out.println(index);
+        }
+        return index;
+    }
+}
