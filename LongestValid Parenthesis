@@ -1,0 +1,79 @@
+public class Solution {
+    public int longestValidParentheses(String s) {
+		int closing=0, maxLen=0, currClosing=0, error=0, closeError=0;
+		List<Integer> arr=new ArrayList<>();
+		for(int i=0;i<s.length();i++)
+		{
+			if(s.charAt(i)==')')
+			{
+				if(closing==0&&currClosing!=0)
+				{
+					if(arr.size()==0||closeError==1)
+					{
+						arr.add(0);
+						closeError=0;
+					}
+					arr.set(arr.size()-1, arr.get(arr.size()-1)+currClosing);
+					currClosing=0;
+					closeError=1;
+					continue;
+				}
+				else if(closing==0)
+					continue;
+				else
+					currClosing++;
+				closing--;
+				if(error>closing)
+				{
+					if(currClosing!=0)
+					{
+						arr.set(arr.size()-1, arr.get(arr.size()-1)+currClosing);
+						currClosing=0;
+					}
+					if(arr.size()>=2)
+					{
+						arr.set(arr.size()-2, arr.get(arr.size()-2)+arr.get(arr.size()-1));
+						int index=arr.size()-1;
+						arr=arr.subList(0, index);
+					}
+					error--;
+				}
+			}
+			if(s.charAt(i)=='(')
+			{
+				if(currClosing!=0)
+				{
+					if(arr.size()==0)
+						arr.add(0);
+					else if((closeError==1||closing>error)&&(arr.get(arr.size()-1)!=0))
+					{
+						arr.add(0);
+						closeError=0;
+					}
+					arr.set(arr.size()-1, arr.get(arr.size()-1)+currClosing);
+					currClosing=0;
+					if(closing>error)
+						error=closing;
+				}
+				closing++;
+			}
+		}
+		if(currClosing!=0)
+		{
+			if(arr.size()==0)
+				arr.add(0);
+			else if((closeError==1||closing>error)&&(arr.get(arr.size()-1)!=0))
+			{
+				arr.add(0);
+				closeError=0;
+			}
+			arr.set(arr.size()-1, arr.get(arr.size()-1)+currClosing);
+			currClosing=0;
+		}
+		if(arr.size()==0)
+			return 0;
+		for(int i:arr)
+			maxLen=Math.max(i, maxLen);
+        return 2*maxLen;
+	}
+}
