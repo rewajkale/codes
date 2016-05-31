@@ -5,56 +5,41 @@ import java.util.HashMap;
 
 public class ZigZagConversion {
 	public String convert(String s, int numRows) {
-		if((numRows==1)||(numRows>s.length()))
+		if(numRows==0||numRows==1)
 			return s;
-		else
+		StringBuilder temp=new StringBuilder();
+		for(int i=0;i<numRows;i++)
 		{
-		HashMap<Integer,ArrayList> h=new HashMap<>();
-		ArrayList<Character> arr;
-		String str="";
-		int nrow=1;
-		int incre=1;
-		for(int i=0;i<s.length();i++)
-		{
-			if(nrow==numRows+1)
-			{
-				incre=0;
-				nrow=nrow-2;
-			}
-			else if(nrow==0)
-			{
-				incre=1;
-				nrow=nrow+2;
-			}
-			if(h.get(nrow)==null)
-			{
-				arr=new ArrayList<>();
-				arr.add(s.charAt(i));
-				h.put(nrow, arr);
-			}
-			else
-			{
-				arr=h.get(nrow);
-				arr.add(s.charAt(i));
-			}
-			if(incre==0)
-				nrow--;
-			else
-				nrow++;
+			int index=i;
+			int down=1;
+		    while(index<s.length())
+		    {
+		    	temp.append(s.charAt(index));
+		    	if(i==0)
+		    		index=index+2*((numRows-1)-i);
+		    	else if(i==numRows-1)
+		    		index=index+2*i;
+		    	else
+		    	{
+		    		if(down==1)
+		    		{
+		    			index=index+2*((numRows-1)-i);
+		    			down=0;
+		    		}
+		    		else
+		    		{
+		    			index=index+2*i;
+		    			down=1;
+		    		}
+		    	}
+		    }
 		}
-		for(int i=1;i<=numRows;i++)
-		{
-			arr=h.get(i);
-			for(char j:arr)
-				str=str+j;
-		}
-        return str;
-		}
+		return temp.toString();
     }
 	public static void main(String[] args)
 	{
 		ZigZagConversion z=new ZigZagConversion();
-		String str=z.convert("PAYPALISHIRING", 4);
+		String str=z.convert("PAYPALISHIRING", 18);
 		System.out.print(str);
 	}
 }
